@@ -44,7 +44,7 @@ const register = async (req, res) => {
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
-    verificationToken: user.verficationToken,
+    verificationToken: user.verificationToken,
     origin,
   });
 
@@ -59,12 +59,12 @@ const verifyEmail = async (req, res) => {
   const user = await userModel.findOne({ email });
   if (!user) throw new customError.Unauthorized("Verification Failed");
 
-  if (user.verficationToken !== verficationToken)
+  if (user.verificationToken !== verficationToken)
     throw new customError.Unauthorized("Verification Failed");
 
   user.isVerified = true;
   user.verified = Date.now();
-  user.verficationToken = "";
+  user.verificationToken = "";
 
   await user.save();
   res.status(StatusCodes.OK).json({ msg: "Email Verified!" });
