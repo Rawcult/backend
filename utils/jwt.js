@@ -1,10 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 const createJWT = ({ payload }) => {
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+
+  return token;
 };
 
-const isTokenValid = (token) => jwt.verify(token, process.env.JWT);
+const isTokenValid = (token) => jwt.verify(token, process.env.JWT_SECRET);
 
 const attachCookiesToResponse = ({ res, accessToken, refreshToken }) => {
   const accessTokenJWT = createJWT({ payload: { accessToken } });
@@ -27,7 +31,7 @@ const attachCookiesToResponse = ({ res, accessToken, refreshToken }) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     signed: true,
-    expires: new Date(Date.now() + oneDay),
+    expires: new Date(Date.now() + oneMonth),
   });
 };
 

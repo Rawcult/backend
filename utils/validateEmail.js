@@ -7,7 +7,7 @@ const validateEmail = async (email) => {
     validateMx: true,
     validateTypo: true,
     validateDisposable: true,
-    // validateSMTP: true,
+    validateSMTP: true,
   });
   return res.valid;
 };

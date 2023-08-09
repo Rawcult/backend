@@ -9,10 +9,10 @@ const {
   resetPassword,
 } = require("../controllers/authController");
 
-router.route("/register").post(register);
-router.route("/verify-email").post(verifyEmail);
-router.route("/login").post(login);
-router.route("/forgot-password").post(forgotPassword);
-router.route("/reset-password").post(resetPassword);
+router.post("/register", register);
+router.post("/verify-email", verifyEmail);
+router.post("/login", login);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 module.exports = router;

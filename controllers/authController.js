@@ -28,23 +28,20 @@ const register = async (req, res) => {
   if (emailAlreadyExists)
     throw new customError.BadRequest("Email already exists!");
 
-  const isFirstAccount = (await userModel.countDocuments({})) === 0;
-  const role = isFirstAccount ? "admin" : "user";
-
   const verificationToken = crypto.randomBytes(40).toString("hex");
 
   const user = await userModel.create({
     name,
     email,
     password,
-    role,
+    role: "user",
     verificationToken,
   });
 
   await sendVerificationEmail({
     name: user.name,
     email: user.email,
-    verificationToken: user.verficationToken,
+    verificationToken: user.verificationToken,
     origin,
   });
 
@@ -54,17 +51,17 @@ const register = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-  const { verficationToken, email } = req.body;
+  const { verificationToken, email } = req.body;
 
   const user = await userModel.findOne({ email });
   if (!user) throw new customError.Unauthorized("Verification Failed");
 
-  if (user.verficationToken !== verficationToken)
+  if (user.verificationToken !== verificationToken)
     throw new customError.Unauthorized("Verification Failed");
 
   user.isVerified = true;
   user.verified = Date.now();
-  user.verficationToken = "";
+  user.verificationToken = "";
 
   await user.save();
   res.status(StatusCodes.OK).json({ msg: "Email Verified!" });

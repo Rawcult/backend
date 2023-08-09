@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please provide a name!"],
+    trim: true,
   },
 
   email: {
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
 
-  verficationToken: String,
+  verificationToken: String,
 
   isVerified: {
     type: Boolean,
