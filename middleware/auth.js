@@ -10,7 +10,7 @@ const authenticateUser = async (req, res, next) => {
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
-      req.user = payload.user;
+      req.user = payload.accessToken;
       return next();
     }
     const payload = isTokenValid(refreshToken);
