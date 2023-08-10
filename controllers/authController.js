@@ -9,7 +9,7 @@ const {
   attachCookiesToResponse,
   createTokenUser,
   createHash,
-  validateEmail,
+  // validateEmail,
 } = require("../utils");
 
 const origin = "http://localhost:5000";
@@ -17,11 +17,11 @@ const origin = "http://localhost:5000";
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const emailSpamFilter = await validateEmail(email);
+  // const emailSpamFilter = await validateEmail(email);
 
-  if (!emailSpamFilter) {
-    throw new customError.BadRequest(`${email} not a valid email`);
-  }
+  // if (!emailSpamFilter) {
+  //   throw new customError.BadRequest(`${email} not a valid email`);
+  // }
 
   const emailAlreadyExists = await userModel.findOne({ email });
 
@@ -71,10 +71,10 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password)
-    throw new customError.BadRequest("Please provide email and password");
+    throw new customError.BadRequest("Please provide email and password!");
 
   const user = await userModel.findOne({ email });
-  if (!user) throw new customError.Unauthorized("Invalid Credentials");
+  if (!user) throw new customError.Unauthorized("Invalid Credentials!");
 
   const isPasswordCorrect = await user.comparePassword(password);
 
@@ -82,7 +82,7 @@ const login = async (req, res) => {
     throw new customError.Unauthorized("Invalid Credentials");
 
   if (!user.isVerified)
-    throw new customError.Unauthorized("Please verify your email");
+    throw new customError.Unauthorized("Please verify your email!");
 
   const accessToken = createTokenUser(user);
 
@@ -92,7 +92,7 @@ const login = async (req, res) => {
   if (existingToken) {
     const { isValid } = existingToken;
     if (!isValid) {
-      throw new customError.Unauthorized("Invalid access");
+      throw new customError.Unauthorized("Invalid access!");
     }
 
     refreshToken = existingToken.refreshToken;
