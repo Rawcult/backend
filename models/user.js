@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -55,7 +56,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please provide a password"],
-    minlength: [8, "Password should contain atlest 8 letters"],
+    // minlength: [8, "Password should contain atlest 8 letters"],
+    validate: {
+      validator: validator.isStrongPassword,
+      message:
+        "Password should contain atleast 8 letters with 1 uppercase, 1 lowercase, 1 number and 1 symbol",
+    },
   },
 
   role: {
