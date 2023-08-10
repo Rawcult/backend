@@ -27,7 +27,7 @@ const orderRouter = require("./routes/orderRoutes");
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(morgan("dev"));
 app.use(express.json());
