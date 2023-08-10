@@ -20,6 +20,7 @@ const cors = require("cors");
 const connectDB = require("./db/connect");
 
 const authRouter = require("./routes/authRoutes");
+const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const orderRouter = require("./routes/orderRoutes");
 
@@ -34,6 +35,7 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 

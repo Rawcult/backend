@@ -8,9 +8,48 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
 
+  mfdUnit: {
+    type: String,
+  },
+
+  unitAddress: {
+    type: String,
+  },
+
+  phone: {
+    type: String,
+    minlength: 10,
+    maxlength: 10,
+  },
+
   email: {
     type: String,
     required: [true, "Please provide an email"],
+  },
+
+  gstNo: {
+    type: String,
+  },
+
+  aadhaarOrPan: {
+    type: String,
+  },
+
+  image: {
+    type: String,
+    default: "/uploads/example.jpeg",
+  },
+
+  productDeal: {
+    type: String,
+    enum: {
+      values: ["Shirts", "T-Shirts", "Jeans", "Trousers"],
+      message: "{VALUE} is not supported",
+    },
+  },
+
+  bankAccount: {
+    type: String,
   },
 
   password: {
