@@ -23,13 +23,19 @@ const productSchema = new mongoose.Schema(
       default: "/uploads/example.jpeg",
     },
 
-    company: {
+    size: {
       type: String,
-      required: [true, "Please provide product company"],
-      enum: {
-        values: ["H&M", "Wrangler", "Peter England"],
-        message: "{VALUE} is not supported",
-      },
+      enum: ["S", "M", "L", "XL", "XXL"],
+    },
+
+    fitType: {
+      type: String,
+    },
+
+    colors: {
+      type: [String],
+      default: ["#222"],
+      required: true,
     },
 
     featured: {

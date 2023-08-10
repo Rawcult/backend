@@ -111,6 +111,22 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: accessToken });
 };
 
+const logout = async (req, res) => {
+  await tokenModel.findOneAndDelete({ user: req.user.userId });
+
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+
+  res.cookie("refreshToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+
+  res.status(StatusCodes.OK).json({ msg: "Success! User logged out!" });
+};
+
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email)
@@ -160,12 +176,14 @@ const resetPassword = async (req, res) => {
       await user.save();
     }
   }
+  res.send("Password Reset Successfully!");
 };
 
 module.exports = {
   register,
   verifyEmail,
   login,
+  logout,
   forgotPassword,
   resetPassword,
 };

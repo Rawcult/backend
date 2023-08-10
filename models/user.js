@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -8,15 +9,59 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
 
+  mfdUnit: {
+    type: String,
+  },
+
+  unitAddress: {
+    type: String,
+  },
+
+  phone: {
+    type: String,
+    minlength: 10,
+    maxlength: 10,
+  },
+
   email: {
     type: String,
     required: [true, "Please provide an email"],
   },
 
+  gstNo: {
+    type: String,
+  },
+
+  aadhaarOrPan: {
+    type: String,
+  },
+
+  image: {
+    type: String,
+    default: "/uploads/example.jpeg",
+  },
+
+  productDeal: {
+    type: String,
+    enum: {
+      values: ["Shirts", "T-Shirts", "Jeans", "Trousers"],
+      message: "{VALUE} is not supported",
+    },
+  },
+
+  bankAccount: {
+    type: String,
+  },
+
   password: {
     type: String,
     required: [true, "Please provide a password"],
-    minlength: [8, "Password should contain atlest 8 letters"],
+    // minlength: [8, "Password should contain atlest 8 letters"],
+    validate: {
+      validator: validator.isStrongPassword,
+      message:
+        "Password should contain atleast 8 letters with 1 uppercase, 1 lowercase, 1 number and 1 symbol",
+    },
   },
 
   role: {
