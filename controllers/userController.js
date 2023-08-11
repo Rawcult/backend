@@ -24,13 +24,30 @@ const showCurrentUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { name, email } = req.body;
+  const {
+    name,
+    email,
+    mfUnit,
+    unitAddress,
+    phone,
+    gstNo,
+    aadhaarOrPan,
+    productDeal,
+    bankAccount,
+  } = req.body;
   if (!name || !email)
     throw new customError.BadRequest("Please provide all values");
 
   const user = await userModel.findOne({ _id: req.user.userId });
   user.email = email;
   user.name = name;
+  user.mfdUnit = mfUnit;
+  user.unitAddress = unitAddress;
+  user.phone = phone;
+  user.gstNo = gstNo;
+  user.aadhaarOrPan = aadhaarOrPan;
+  user.productDeal = productDeal;
+  user.bankAccount = bankAccount;
   await user.save();
 
   const accessToken = createTokenUser(user);
