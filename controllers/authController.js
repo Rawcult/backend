@@ -12,7 +12,10 @@ const {
   // validateEmail,
 } = require("../utils");
 
-const origin = "http://localhost:5000";
+const origin =
+  process.env.NODE_ENV === "production"
+    ? "https://rawcult.netlify.app"
+    : "http://localhost:5173";
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;

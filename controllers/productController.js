@@ -58,7 +58,7 @@ const deleteProduct = async (req, res) => {
 const uploadImage = async (req, res) => {
   const result = await cloudinary.uploader.upload(
     req.files.image.tempFilePath,
-    { use_filename: true, folder: "file-upload", public_id: "raw-product" }
+    { use_filename: true, folder: "file-upload" }
   );
 
   fs.unlinkSync(req.files.image.tempFilePath);

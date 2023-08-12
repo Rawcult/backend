@@ -31,6 +31,7 @@ const updateUser = async (req, res) => {
     unitAddress,
     phone,
     gstNo,
+    image,
     aadhaarOrPan,
     productDeal,
     bankAccount,
@@ -44,6 +45,7 @@ const updateUser = async (req, res) => {
   user.mfdUnit = mfUnit;
   user.unitAddress = unitAddress;
   user.phone = phone;
+  user.image = image;
   user.gstNo = gstNo;
   user.aadhaarOrPan = aadhaarOrPan;
   user.productDeal = productDeal;
