@@ -18,7 +18,7 @@ const origin =
     : "http://localhost:5173";
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   // const emailSpamFilter = await validateEmail(email);
 
@@ -37,7 +37,7 @@ const register = async (req, res) => {
     name,
     email,
     password,
-    role: "user",
+    role,
     verificationToken,
   });
 
