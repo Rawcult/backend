@@ -1,13 +1,11 @@
 module.exports = {
   service: "Gmail",
   auth: {
+    type: "OAuth2",
     user: process.env.EMAIL_ADDRESS,
-    pass: process.env.EMAIL_PASSWORD,
+    accessToken,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
   },
-  // host: "smtp.ethereal.email",
-  // port: 587,
-  // auth: {
-  //   user: "ruby.rice17@ethereal.email",
-  //   pass: "YfV4g4TXS3QAbv3mXA",
-  // },
 };
