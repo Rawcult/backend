@@ -70,8 +70,8 @@ const userSchema = new mongoose.Schema({
 
   role: {
     type: String,
-    enum: ["admin", "user"],
-    default: "user",
+    enum: ["admin", "retailer", "manufacturer"],
+    // default: "user",
   },
 
   verificationToken: String,
@@ -89,6 +89,11 @@ const userSchema = new mongoose.Schema({
 
   passwordTokenExpirationDate: {
     type: Date,
+  },
+
+  firstTimeLogin: {
+    type: Boolean,
+    default: true,
   },
 });
 
