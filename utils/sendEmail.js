@@ -54,7 +54,7 @@ const sendEmail = async ({ to, subject, html }) => {
       });
     });
   } catch (error) {
-    return err;
+    return error;
   }
 };
 
