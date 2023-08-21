@@ -29,6 +29,8 @@ const updateUser = async (req, res) => {
     email,
     mfUnit,
     unitAddress,
+    shopName,
+    shopAddress,
     phone,
     gstNo,
     image,
@@ -50,6 +52,8 @@ const updateUser = async (req, res) => {
   user.aadhaarOrPan = aadhaarOrPan;
   user.productDeal = productDeal;
   user.bankAccount = bankAccount;
+  user.shopName = shopName;
+  user.shopAddress = shopAddress;
   await user.save();
 
   const accessToken = createTokenUser(user);
