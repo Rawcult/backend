@@ -54,6 +54,7 @@ const updateUser = async (req, res) => {
   user.bankAccount = bankAccount;
   user.shopName = shopName;
   user.shopAddress = shopAddress;
+  user.firstTimeLogin = false;
   await user.save();
 
   const accessToken = createTokenUser(user);
