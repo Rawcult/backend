@@ -24,7 +24,9 @@ const sendEmail = async ({ to, subject, html }) => {
       });
     });
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         type: "OAuth2",
         user: process.env.EMAIL_ADDRESS,
@@ -34,11 +36,22 @@ const sendEmail = async ({ to, subject, html }) => {
         refreshToken: process.env.REFRESH_TOKEN,
       },
     });
-    return transporter.sendMail({
+    const mailData = {
       from: `Rawcult Team <${process.env.EMAIL_ADDRESS}>`,
       to,
       subject,
       html,
+    };
+
+    await new Promise((resolve, reject) => {
+      transporter.sendMail(mailData, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(info);
+        }
+      });
     });
   } catch (error) {
     return err;
