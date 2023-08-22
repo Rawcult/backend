@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
 
   phone: {
     type: String,
-    minlength: 10,
-    maxlength: 10,
+    match: [/^\d{10}$/, "Please provide a valid phone number"],
+    unique: true,
   },
 
   email: {
@@ -55,10 +55,6 @@ const userSchema = new mongoose.Schema({
 
   productDeal: {
     type: String,
-    enum: {
-      values: ["Shirts", "T-Shirts", "Jeans", "Trousers"],
-      message: "{VALUE} is not supported",
-    },
   },
 
   bankAccount: {

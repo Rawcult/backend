@@ -38,8 +38,12 @@ const updateUser = async (req, res) => {
     productDeal,
     bankAccount,
   } = req.body;
-  if (!name || !email)
+  if (!name || !email || !phone)
     throw new customError.BadRequest("Please provide all values");
+
+  const phoneAlreadyExists = userModel.findOne({ phone });
+  if (phoneAlreadyExists)
+    throw new customError.BadRequest("Phone number already exists!");
 
   const user = await userModel.findOne({ _id: req.user.userId });
   user.email = email;

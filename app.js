@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 const cors = require("cors");
