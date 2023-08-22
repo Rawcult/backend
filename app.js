@@ -34,7 +34,7 @@ const host =
 
 app.use(cors({ origin: host, credentials: true }));
 
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser(process.env.JWT_SECRET));
