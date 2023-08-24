@@ -5,8 +5,17 @@ const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
 
 const createProduct = async (req, res) => {
+  let total = 0;
   req.body.user = req.user.userId;
-  console.log(req.user.userId);
+
+  const { sizes, stocks } = req.body;
+  for (const size of sizes) {
+    total += size.quantity;
+  }
+  if (total !== stocks)
+    throw new customError.BadRequest(
+      "Stocks amount not matched with the items quantity!"
+    );
   const product = await productModel.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
 };

@@ -3,6 +3,10 @@ const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
+  googleId: {
+    type: String,
+  },
+
   name: {
     type: String,
     required: [true, "Please provide a name!"],
@@ -63,8 +67,7 @@ const userSchema = new mongoose.Schema({
 
   password: {
     type: String,
-    required: [true, "Please provide a password"],
-    // minlength: [8, "Password should contain atlest 8 letters"],
+    // required: [true, "Please provide a password"],
     validate: {
       validator: validator.isStrongPassword,
       message:
@@ -75,7 +78,6 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["admin", "retailer", "manufacturer"],
-    // default: "user",
   },
 
   verificationToken: String,

@@ -23,16 +23,12 @@ const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const orderRouter = require("./routes/orderRoutes");
+const googleRouter = require("./routes/googleRoutes");
 
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
 
-const host =
-  process.env.NODE_ENV === "production"
-    ? "https://rawcult.netlify.app"
-    : "http://localhost:5173";
-
-app.use(cors({ origin: host, credentials: true }));
+app.use(cors({ credentials: true }));
 
 // app.use(morgan("dev"));
 app.use(express.json());
@@ -43,6 +39,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
+app.use(googleRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -20,6 +20,8 @@ const origin =
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
 
+  if (!name || !email || !password || !role)
+    throw new customError.BadRequest("Please fill all the fields!");
   // const emailSpamFilter = await validateEmail(email);
 
   // if (!emailSpamFilter) {

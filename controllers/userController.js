@@ -41,7 +41,7 @@ const updateUser = async (req, res) => {
   if (!name || !email || !phone)
     throw new customError.BadRequest("Please provide all values");
 
-  const phoneAlreadyExists = userModel.findOne({ phone });
+  const phoneAlreadyExists = await userModel.findOne({ phone });
   if (phoneAlreadyExists)
     throw new customError.BadRequest("Phone number already exists!");
 
