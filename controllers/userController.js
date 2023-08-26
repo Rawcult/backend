@@ -4,8 +4,10 @@ const customError = require("../errors");
 const { createTokenUser, attachCookiesToResponse } = require("../utils");
 
 const getAllUsers = async (req, res) => {
-  const users = await userModel.find({ role: "user" }).select("-password");
-  res.status(StatusCodes.OK).json({ users });
+  const users = await userModel
+    .find({ role: { $ne: "admin" } })
+    .select("-password");
+  res.status(StatusCodes.OK).json({ users, count: users.length });
 };
 
 const getSingleUser = async (req, res) => {
@@ -84,10 +86,19 @@ const updateUserPassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Password Updated!" });
 };
 
+const adminApproval = async (req, res) => {
+  const { userId } = req.body;
+  const user = await userModel.findOne({ _id: userId });
+  user.isApproved = true;
+  await user.save();
+  res.status(StatusCodes.OK).json({ msg: "User Approved Successfully!" });
+};
+
 module.exports = {
   getAllUsers,
   getSingleUser,
   showCurrentUser,
   updateUser,
   updateUserPassword,
+  adminApproval,
 };

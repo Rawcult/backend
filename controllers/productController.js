@@ -9,7 +9,7 @@ const createProduct = async (req, res) => {
   req.body.user = req.user.userId;
 
   const { sizes, stocks } = req.body;
-  for (const size of sizes) {
+  for (let size of sizes) {
     total += size.quantity;
   }
   if (total !== stocks)

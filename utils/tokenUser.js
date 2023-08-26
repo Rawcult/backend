@@ -5,6 +5,7 @@ const createTokenUser = (user) => {
     role: user.role,
     email: user.email,
     firstTimeLogin: user.firstTimeLogin,
+    isApproved: user.isApproved,
   };
 };
 

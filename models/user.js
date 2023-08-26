@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema({
 
   role: {
     type: String,
-    enum: ["admin", "retailer", "manufacturer"],
+    enum: ["retailer", "manufacturer"],
   },
 
   verificationToken: String,
@@ -100,6 +100,11 @@ const userSchema = new mongoose.Schema({
   firstTimeLogin: {
     type: Boolean,
     default: true,
+  },
+
+  isApproved: {
+    type: Boolean,
+    default: false,
   },
 });
 
