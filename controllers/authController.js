@@ -101,8 +101,8 @@ const login = async (req, res) => {
     }
 
     refreshToken = existingToken.refreshToken;
-    attachCookiesToResponse({ res, accessToken, refreshToken });
-    res.status(StatusCodes.OK).json({ user: accessToken });
+    const tokens = attachCookiesToResponse({ res, accessToken, refreshToken });
+    res.status(StatusCodes.OK).json({ user: accessToken, tokens });
     return;
   }
 
@@ -112,8 +112,8 @@ const login = async (req, res) => {
   const userToken = { refreshToken, ip, userAgent, user: user._id };
 
   await tokenModel.create(userToken);
-  attachCookiesToResponse({ res, accessToken, refreshToken });
-  res.status(StatusCodes.OK).json({ user: accessToken });
+  const tokens = attachCookiesToResponse({ res, accessToken, refreshToken });
+  res.status(StatusCodes.OK).json({ user: accessToken, tokens });
 };
 
 const logout = async (req, res) => {

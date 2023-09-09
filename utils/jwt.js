@@ -35,6 +35,8 @@ const attachCookiesToResponse = ({ res, accessToken, refreshToken }) => {
     expires: new Date(Date.now() + oneMonth),
     sameSite: "none",
   });
+
+  return { accessTokenJWT, refreshTokenJWT };
 };
 
 module.exports = {

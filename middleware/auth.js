@@ -7,6 +7,10 @@ const tokenModel = require("../models/token");
 const authenticateUser = async (req, res, next) => {
   const { refreshToken, accessToken } = req.signedCookies;
 
+  if (!refreshToken || !accessToken) {
+    throw new customError.Unauthorized("Invalid Authentication");
+  }
+
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
