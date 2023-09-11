@@ -10,10 +10,12 @@ const {
   updateProduct,
   deleteProduct,
   uploadImage,
+  subCategories,
 } = require("../controllers/productController");
 
 router.route("/").post(authenticateUser, createProduct).get(getAllProducts);
 router.post("/uploadImage", authenticateUser, uploadImage);
+router.get("/search", subCategories);
 router
   .route("/:id")
   .get(getSingleProduct)

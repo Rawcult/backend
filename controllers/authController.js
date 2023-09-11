@@ -90,30 +90,9 @@ const login = async (req, res) => {
     throw new customError.Unauthorized("Please verify your email!");
 
   const accessToken = createTokenUser(user);
+  const token = attachCookiesToResponse({ accessToken });
 
-  let refreshToken = "";
-  const existingToken = await tokenModel.findOne({ user: user._id });
-
-  if (existingToken) {
-    const { isValid } = existingToken;
-    if (!isValid) {
-      throw new customError.Unauthorized("Invalid access!");
-    }
-
-    refreshToken = existingToken.refreshToken;
-    const tokens = attachCookiesToResponse({ res, accessToken, refreshToken });
-    res.status(StatusCodes.OK).json({ user: accessToken, tokens });
-    return;
-  }
-
-  refreshToken = crypto.randomBytes(40).toString("hex");
-  const userAgent = req.headers["user-agent"];
-  const ip = req.ip;
-  const userToken = { refreshToken, ip, userAgent, user: user._id };
-
-  await tokenModel.create(userToken);
-  const tokens = attachCookiesToResponse({ res, accessToken, refreshToken });
-  res.status(StatusCodes.OK).json({ user: accessToken, tokens });
+  res.status(StatusCodes.OK).json({ user: accessToken, accessToken: token });
 };
 
 const logout = async (req, res) => {

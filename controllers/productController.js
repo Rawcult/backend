@@ -2,6 +2,7 @@ const productModel = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
 const customError = require("../errors");
 const fs = require("fs");
+const searchSubCategories = require("../utils/search");
 const cloudinary = require("cloudinary").v2;
 
 const createProduct = async (req, res) => {
@@ -75,6 +76,19 @@ const uploadImage = async (req, res) => {
   return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
 };
 
+const subCategories = async (req, res) => {
+  try {
+    const searchQuery = req.query.q || "";
+    const subCategories = await searchSubCategories(searchQuery);
+    res.status(StatusCodes.OK).json(subCategories);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -82,4 +96,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   uploadImage,
+  subCategories,
 };

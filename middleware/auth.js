@@ -1,50 +1,36 @@
-const customError = require("../errors");
-
-const { isTokenValid, attachCookiesToResponse } = require("../utils");
-
-const tokenModel = require("../models/token");
+const { Unauthorized, Forbidden } = require("../errors");
+const { isTokenValid } = require("../utils");
 
 const authenticateUser = async (req, res, next) => {
-  const { refreshToken, accessToken } = req.signedCookies;
+  const authHeader = req.headers.authorization;
 
-  if (!refreshToken || !accessToken) {
-    throw new customError.Unauthorized("Invalid Authentication");
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    throw new Unauthorized("Invalid Authentication!");
   }
 
+  const token = authHeader.split(" ")[1];
   try {
-    if (accessToken) {
-      const payload = isTokenValid(accessToken);
-      req.user = payload.accessToken;
-      return next();
-    }
-    const payload = isTokenValid(refreshToken);
-    const existingToken = await tokenModel.findOne({
-      user: payload.user.userId,
-      refreshToken: payload.refreshToken,
-    });
-
-    if (!existingToken || !existingToken?.isValid) {
-      throw new customError.Unauthorized("Invalid Authentication");
-    }
-
-    attachCookiesToResponse({
-      res,
-      accessToken: payload.user,
-      refreshToken: existingToken.accessToken,
-    });
-    req.user = payload.user;
+    const {
+      accessToken: { name, userId, role, email, firstTimeLogin, isApproved },
+    } = isTokenValid(token);
+    req.user = {
+      name,
+      userId,
+      role,
+      email,
+      firstTimeLogin,
+      isApproved,
+    };
     next();
   } catch (error) {
-    console.log(error);
+    throw new Unauthorized("Invalid Authentication!");
   }
 };
 
 const authorizedPermission = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role))
-      throw new customError.Forbidden(
-        "You aren't authorize to access this route"
-      );
+      throw new Forbidden("You aren't authorize to access this route");
     next();
   };
 };
