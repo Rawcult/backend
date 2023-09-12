@@ -43,15 +43,15 @@ const register = async (req, res) => {
     verificationToken,
   });
 
-  await sendVerificationEmail({
-    name: user.name,
-    email: user.email,
-    verificationToken: user.verificationToken,
-    origin,
-  });
+  // await sendVerificationEmail({
+  //   name: user.name,
+  //   email: user.email,
+  //   verificationToken: user.verificationToken,
+  //   origin,
+  // });
 
   res.status(StatusCodes.CREATED).json({
-    msg: "Success! Please check your email to verify the account",
+    msg: "Success! Registered Successfully!",
   });
 };
 
@@ -86,8 +86,8 @@ const login = async (req, res) => {
   if (!isPasswordCorrect)
     throw new customError.Unauthorized("Invalid Credentials");
 
-  if (!user.isVerified)
-    throw new customError.Unauthorized("Please verify your email!");
+  // if (!user.isVerified)
+  //   throw new customError.Unauthorized("Please verify your email!");
 
   const accessToken = createTokenUser(user);
   const token = attachCookiesToResponse({ accessToken });
