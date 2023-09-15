@@ -11,13 +11,15 @@ const {
   deleteProduct,
   uploadImage,
   subCategories,
+  getUserProduct,
 } = require("../controllers/productController");
 
 router.route("/").post(authenticateUser, createProduct).get(getAllProducts);
 router.post("/uploadImage", authenticateUser, uploadImage);
 router.get("/search", subCategories);
+router.get("/userProduct/:id", authenticateUser, getUserProduct);
 router
-  .route("/:id")
+  .route("/id/:id")
   .get(getSingleProduct)
   .patch(authenticateUser, updateProduct)
   .delete(authenticateUser, deleteProduct);

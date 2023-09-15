@@ -24,8 +24,8 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   const products = await productModel.find({});
   res.status(StatusCodes.OK).json({
-    products,
     count: products.length,
+    products,
   });
 };
 
@@ -89,6 +89,19 @@ const subCategories = async (req, res) => {
   }
 };
 
+const getUserProduct = async (req, res) => {
+  const { id: userId } = req.params;
+
+  const products = await productModel.find({ user: userId });
+  if (!products) {
+    throw new customError.BadRequest(
+      "No products associated with this user found!"
+    );
+  }
+
+  res.status(StatusCodes.OK).json({ count: products.length, products });
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -97,4 +110,5 @@ module.exports = {
   deleteProduct,
   uploadImage,
   subCategories,
+  getUserProduct,
 };
