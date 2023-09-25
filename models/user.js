@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
       },
       message: "Please provide a valid phone number!.",
     },
-    unique: true,
+    // unique: true,
   },
 
   email: {
