@@ -89,8 +89,8 @@ const login = async (req, res) => {
   // if (!user.isVerified)
   //   throw new customError.Unauthorized("Please verify your email!");
 
-  if (!user.isApproved)
-    throw new customError.Unauthorized("Please wait for the approval!");
+  // if (!user.isApproved)
+  //   throw new customError.Unauthorized("Please wait for the approval!");
 
   const accessToken = createTokenUser(user);
   const token = attachCookiesToResponse({ accessToken });
