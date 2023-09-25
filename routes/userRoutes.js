@@ -12,6 +12,7 @@ const {
   updateUserPassword,
   updateUser,
   adminApproval,
+  adminRejection,
 } = require("../controllers/userController");
 
 router.get("/", authenticateUser, authorizedPermission("admin"), getAllUsers);
@@ -24,6 +25,12 @@ router.patch(
   authenticateUser,
   authorizedPermission("admin"),
   adminApproval
+);
+router.delete(
+  "/adminRejection",
+  authenticateUser,
+  authorizedPermission("admin"),
+  adminRejection
 );
 
 module.exports = router;

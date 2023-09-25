@@ -94,6 +94,18 @@ const adminApproval = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "User Approved Successfully!" });
 };
 
+const adminRejection = async (req, res) => {
+  const { userId } = req.body;
+  const user = await userModel.findOne({ _id: userId });
+  if (!user) throw new NotFoundError(`No professional with ${userId} found!`);
+
+  await user.deleteOne();
+
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "User declined and removed from the database!" });
+};
+
 module.exports = {
   getAllUsers,
   getSingleUser,
@@ -101,4 +113,5 @@ module.exports = {
   updateUser,
   updateUserPassword,
   adminApproval,
+  adminRejection,
 };
