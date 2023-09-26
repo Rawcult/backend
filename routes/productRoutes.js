@@ -12,6 +12,7 @@ const {
   uploadImage,
   subCategories,
   getUserProduct,
+  getSubCategory,
 } = require("../controllers/productController");
 
 router.route("/").post(authenticateUser, createProduct).get(getAllProducts);
@@ -23,5 +24,7 @@ router
   .get(getSingleProduct)
   .patch(authenticateUser, updateProduct)
   .delete(authenticateUser, deleteProduct);
+
+router.post("/getSubCategory", authenticateUser, getSubCategory);
 
 module.exports = router;

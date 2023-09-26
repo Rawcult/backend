@@ -102,6 +102,16 @@ const getUserProduct = async (req, res) => {
   res.status(StatusCodes.OK).json({ count: products.length, products });
 };
 
+const getSubCategory = async (req, res) => {
+  const { category, subCategory } = req.body;
+
+  const product = await productModel.find({
+    $and: [{ category }, { subCategory }],
+  });
+
+  res.status(StatusCodes.OK).json({ product });
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -111,4 +121,5 @@ module.exports = {
   uploadImage,
   subCategories,
   getUserProduct,
+  getSubCategory,
 };

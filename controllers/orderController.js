@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const customError = require("../errors");
 const orderModel = require("../models/order");
 const productModel = require("../models/product");
+const userModel = require("../models/user");
 const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
 
 const getAllOrders = async (req, res) => {
@@ -93,10 +94,48 @@ const updateOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ order });
 };
 
+const getMnfOrders = async (req, res) => {
+  const { mnfId } = req.params;
+  const products = await productModel.find({ user: mnfId });
+  const productId = products.map((product) => product._id);
+  // console.log(productId);
+  const orders = await orderModel
+    .find({
+      orderItems: { $elemMatch: { product: { $in: productId } } },
+    })
+    .lean();
+
+  const userId = orders.map((order) => order.user);
+  // console.log(userId);
+  const users = await userModel.find({ _id: { $in: userId } });
+
+  // const address = users.map((user) => {
+  //   return { shopName: user.shopName, shopAddress: user.shopAddress };
+  // });
+
+  const userMap = users.reduce((map, user) => {
+    map[user._id.toString()] = {
+      shopName: user.shopName,
+      shopAddress: user.shopAddress,
+    };
+    return map;
+  }, {});
+
+  // console.log(userMap);
+
+  const ordersWithDetails = orders.map((order) => {
+    const userDetails = userMap[order.user.toString()];
+    return { ...order, ...userDetails };
+  });
+
+  res.status(StatusCodes.OK).json({ ordersWithDetails });
+};
+
 module.exports = {
   getAllOrders,
   getSingleOrder,
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  getMnfOrders,
 };

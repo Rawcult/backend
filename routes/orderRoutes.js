@@ -8,6 +8,7 @@ const {
   getCurrentUserOrders,
   createOrder,
   updateOrder,
+  getMnfOrders,
 } = require("../controllers/orderController");
 
 router
@@ -19,5 +20,7 @@ router
   .route("/:id")
   .get(authenticateUser, getSingleOrder)
   .patch(authenticateUser, updateOrder);
+
+router.get("/getMnfOrders/:mnfId", getMnfOrders);
 
 module.exports = router;
