@@ -25,6 +25,6 @@ router
   .patch(authenticateUser, updateProduct)
   .delete(authenticateUser, deleteProduct);
 
-router.post("/getSubCategory", authenticateUser, getSubCategory);
+router.post("/getSubCategory", getSubCategory);
 
 module.exports = router;
