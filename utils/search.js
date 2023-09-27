@@ -4,12 +4,15 @@ async function searchSubCategories(searchQuery) {
   const pipeline = [
     {
       $match: {
-        subCategory: { $regex: new RegExp(searchQuery, "i") }, // Match subCategory field
+        $or: [
+          { subCategory: { $regex: new RegExp(searchQuery, "i") } },
+          { category: { $regex: new RegExp(searchQuery, "i") } },
+          { name: { $regex: new RegExp(searchQuery, "i") } },
+        ],
       },
     },
   ];
 
-  // Execute the aggregation pipeline
   const matchingProducts = await productModel.aggregate(pipeline);
 
   return matchingProducts;

@@ -139,3 +139,23 @@ module.exports = {
   updateOrder,
   getMnfOrders,
 };
+
+// Pagination
+
+// app.get("/posts", async (req, res) => {
+//   const { page = 1, limit = 10 } = req.query;
+//   try {
+//     const posts = await Posts.find()
+//       .limit(limit * 1)
+//       .skip((page - 1) * limit)
+//       .exec();
+//     const count = await Posts.countDocuments();
+//     res.json({
+//       posts,
+//       totalPages: Math.ceil(count / limit),
+//       currentPage: page,
+//     });
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
