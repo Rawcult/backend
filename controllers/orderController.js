@@ -98,7 +98,7 @@ const getMnfOrders = async (req, res) => {
   const { mnfId } = req.params;
   const products = await productModel.find({ user: mnfId });
   const productId = products.map((product) => product._id);
-  // console.log(productId);
+
   const orders = await orderModel
     .find({
       orderItems: { $elemMatch: { product: { $in: productId } } },
@@ -106,12 +106,7 @@ const getMnfOrders = async (req, res) => {
     .lean();
 
   const userId = orders.map((order) => order.user);
-  // console.log(userId);
   const users = await userModel.find({ _id: { $in: userId } });
-
-  // const address = users.map((user) => {
-  //   return { shopName: user.shopName, shopAddress: user.shopAddress };
-  // });
 
   const userMap = users.reduce((map, user) => {
     map[user._id.toString()] = {
@@ -121,11 +116,23 @@ const getMnfOrders = async (req, res) => {
     return map;
   }, {});
 
-  // console.log(userMap);
+  const productMap = products.reduce((map, product) => {
+    map[product._id.toString()] = {
+      size: product.sizes,
+      color: product.colors,
+    };
+    return map;
+  }, {});
 
   const ordersWithDetails = orders.map((order) => {
     const userDetails = userMap[order.user.toString()];
-    return { ...order, ...userDetails };
+
+    const orderItemsWithDetails = order.orderItems.map((item) => {
+      const productDetails = productMap[item.product.toString()];
+      return { ...item, ...productDetails };
+    });
+
+    return { ...order, user: userDetails, orderItems: orderItemsWithDetails };
   });
 
   res.status(StatusCodes.OK).json({ ordersWithDetails });
