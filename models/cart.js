@@ -12,18 +12,22 @@ const SizeSchema = new Schema({
     required: true,
     min: 0,
   },
+
+  color: {
+    type: String,
+    required: true,
+  },
 });
 
 const cartSchema = new Schema({
   productId: String,
   userId: String,
+  productName: String,
+  description: String,
   sizes: [SizeSchema],
-  quantity: String,
-  colors: {
-    type: [String],
-    default: ["#222"],
-    required: true,
-  },
+  totalQuantity: String,
+  price: Number,
+  image: String,
 });
 
 module.exports = model("Cart", cartSchema);
