@@ -24,6 +24,7 @@ const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const googleRouter = require("./routes/googleRoutes");
+const cartRouter = require("./routes/cartRoutes");
 
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
@@ -40,6 +41,7 @@ app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 app.use(googleRouter);
+app.use("/cart", cartRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
