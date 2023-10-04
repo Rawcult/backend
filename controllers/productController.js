@@ -1,9 +1,8 @@
 const productModel = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
 const customError = require("../errors");
-const fs = require("fs");
 const searchSubCategories = require("../utils/search");
-const cloudinary = require("cloudinary").v2;
+const { uploadBase64Image } = require("../utils");
 
 const createProduct = async (req, res) => {
   let total = 0;
@@ -65,15 +64,37 @@ const deleteProduct = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Success! Product Deleted!" });
 };
 
+// const uploadImage = async (req, res) => {
+//   const result = await cloudinary.uploader.upload(
+//     req.files.image.tempFilePath,
+//     { use_filename: true, folder: "file-upload" }
+//   );
+
+//   fs.unlinkSync(req.files.image.tempFilePath);
+
+//   return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
+// };
+
 const uploadImage = async (req, res) => {
-  const result = await cloudinary.uploader.upload(
-    req.files.image.tempFilePath,
-    { use_filename: true, folder: "file-upload" }
-  );
+  try {
+    // console.log(req.body.base64Image);
+    if (!req.body.base64Image) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "No valid base64 image data provided" });
+    }
 
-  fs.unlinkSync(req.files.image.tempFilePath);
+    const result = await uploadBase64Image(req.body.base64Image);
 
-  return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
+    return res
+      .status(StatusCodes.OK)
+      .json({ image: { src: result.secure_url } });
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Error uploading image",
+    });
+  }
 };
 
 const subCategories = async (req, res) => {
