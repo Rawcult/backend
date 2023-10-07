@@ -77,18 +77,17 @@ const deleteProduct = async (req, res) => {
 
 const uploadImage = async (req, res) => {
   try {
-    // console.log(req.body.base64Image);
-    if (!req.body.base64Image) {
+    const {base64Image} = req.body
+    if (!base64Image) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ error: "No valid base64 image data provided" });
     }
-
-    const result = await uploadBase64Image(req.body.base64Image);
+    const result = await uploadBase64Image(base64Image);
 
     return res
       .status(StatusCodes.OK)
-      .json({ image: { src: result.secure_url } });
+      .json({ image: result.secure_url });
   } catch (error) {
     console.error("Error uploading image:", error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
