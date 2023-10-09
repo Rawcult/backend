@@ -1,10 +1,10 @@
 const cloudinary = require("cloudinary").v2;
 
-const uploadBase64Image = async (base64Data) => {
+const uploadBase64Image = async (base64Data, format) => {
   try {
     const result = await cloudinary.uploader.upload(base64Data, {
       folder: "file-upload",
-      //   format: "png",
+      format,
     });
 
     return result;

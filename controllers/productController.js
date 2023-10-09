@@ -77,17 +77,23 @@ const deleteProduct = async (req, res) => {
 
 const uploadImage = async (req, res) => {
   try {
-    const {base64Image} = req.body
+    const { base64Image, format } = req.body;
+    if (!format) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "Please provide a file format!" });
+    }
+
     if (!base64Image) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ error: "No valid base64 image data provided" });
     }
-    const result = await uploadBase64Image(base64Image);
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ image: result.secure_url });
+    const formattedBase64Data = `data:image/${format};base64,${base64Image}`;
+    const result = await uploadBase64Image(formattedBase64Data, format);
+
+    return res.status(StatusCodes.OK).json({ image: result.secure_url });
   } catch (error) {
     console.error("Error uploading image:", error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
