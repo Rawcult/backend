@@ -13,10 +13,12 @@ const {
   subCategories,
   getUserProduct,
   getSubCategory,
+  uploadBulkImage,
 } = require("../controllers/productController");
 
 router.route("/").post(authenticateUser, createProduct).get(getAllProducts);
-router.post("/uploadImage", authenticateUser, uploadImage);
+router.post("/uploadImage",authenticateUser, uploadImage);
+router.post("/bulkImageUpload",authenticateUser, uploadBulkImage);
 router.get("/search", subCategories);
 router.get("/userProduct/:id", authenticateUser, getUserProduct);
 router
