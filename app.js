@@ -12,7 +12,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 const cors = require("cors");
@@ -25,6 +24,7 @@ const productRouter = require("./routes/productRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const googleRouter = require("./routes/googleRoutes");
 const cartRouter = require("./routes/cartRoutes");
+// const firebaseRouter = require("./routes/firebaseRoutes");
 
 const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
@@ -42,6 +42,7 @@ app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 app.use(googleRouter);
 app.use("/cart", cartRouter);
+// app.use("/firebase", firebaseRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

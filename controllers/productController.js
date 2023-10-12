@@ -5,20 +5,25 @@ const searchSubCategories = require("../utils/search");
 const { uploadBase64Image } = require("../utils");
 
 async function bulkImageUpload(options) {
-  const {base64Image, format, res} = options
-  console.log("🚀 ~ file: productController.js:9 ~ bulkImageUpload ~ format:", format)
-  if (!format) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ error: "Please provide a file format!" });
-  }
+  const { base64Image, res } = options;
+  // console.log(
+  //   "🚀 ~ file: productController.js:9 ~ bulkImageUpload ~ format:"
+  //   format
+  // );
+  // if (!format) {
+  //   return res
+  //     .status(StatusCodes.BAD_REQUEST)
+  //     .json({ error: "Please provide a file format!" });
+  // }
   if (!base64Image) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ error: "No valid base64 image data provided" });
   }
-  const formattedBase64Data = base64Image.includes("data:image") ? base64Image  : `data:image/${format};base64,${base64Image}`;
-  return await uploadBase64Image(formattedBase64Data, format);
+  const formattedBase64Data = base64Image.includes("data:image")
+    ? base64Image
+    : `data:image/jpg;base64,${base64Image}`;
+  return await uploadBase64Image(formattedBase64Data);
 }
 
 const createProduct = async (req, res) => {
@@ -94,12 +99,12 @@ const deleteProduct = async (req, res) => {
 
 const uploadImage = async (req, res) => {
   try {
-    const { base64Image, format } = req.body;
-    let response
-    try{
-        response = await bulkImageUpload({base64Image, format, res});
-    }catch(err){
-      console.log("catched err",err)
+    const { base64Image } = req.body;
+    let response;
+    try {
+      response = await bulkImageUpload({ base64Image, res });
+    } catch (err) {
+      console.log("catched err", err);
     }
     return res.status(StatusCodes.OK).json({ image: response.secure_url });
   } catch (error) {
@@ -110,16 +115,18 @@ const uploadImage = async (req, res) => {
   }
 };
 
-const uploadBulkImage= async (req, res) => {
+const uploadBulkImage = async (req, res) => {
   try {
     const { imageArray } = req.body;
-    const imageList = await Promise.all(imageArray.map((val) => {
-      const { base64Image, format } = val;
-      const response = bulkImageUpload({base64Image, format, res});
-      return response
-    }));
-    const finalList = imageList.map(val=> val.secure_url)
-    return res.status(StatusCodes.OK).json({ imageList:finalList });
+    const imageList = await Promise.all(
+      imageArray.map((val) => {
+        const { base64Image } = val;
+        const response = bulkImageUpload({ base64Image, res });
+        return response;
+      })
+    );
+    const finalList = imageList.map((val) => val.secure_url);
+    return res.status(StatusCodes.OK).json({ imageList: finalList });
   } catch (error) {
     console.error("Error uploading image:", error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -174,5 +181,5 @@ module.exports = {
   subCategories,
   getUserProduct,
   getSubCategory,
-  uploadBulkImage
+  uploadBulkImage,
 };
