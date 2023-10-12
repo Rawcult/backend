@@ -30,9 +30,9 @@ const notFoundMiddleware = require("./middleware/notFound");
 const errorHandlerMiddleware = require("./middleware/errorHandler");
 
 app.use(cors({ credentials: true }));
-
 // app.use(morgan("dev"));
-app.use(express.json({ limit: "1gb" }));
+app.use(express.json({ limit: "800mb" }));
+app.use(express.urlencoded({ limit: "800mb" ,extended:true}));
 app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
