@@ -27,7 +27,7 @@ const cartSchema = new Schema({
   sizes: [SizeSchema],
   totalQuantity: String,
   price: Number,
-  image: Array,
+  image: String,
 });
 
 module.exports = model("Cart", cartSchema);
