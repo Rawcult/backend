@@ -32,7 +32,9 @@ const errorHandlerMiddleware = require("./middleware/errorHandler");
 app.use(cors({ credentials: true }));
 // app.use(morgan("dev"));
 app.use(express.json({ limit: "80mb" }));
-app.use(express.urlencoded({ limit: "80mb" ,extended:true}));
+app.use(
+  express.urlencoded({ limit: "80mb", extended: true, parameterLimit: 50000 })
+);
 app.use(fileUpload({ useTempFiles: true }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
