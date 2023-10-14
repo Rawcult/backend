@@ -106,6 +106,7 @@ const uploadImage = async (req, res) => {
     } catch (err) {
       console.log("catched err", err);
     }
+    console.log(response.secure_url);
     return res.status(StatusCodes.OK).json({ image: response.secure_url });
   } catch (error) {
     console.error("Error uploading image:", error);
