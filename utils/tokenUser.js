@@ -6,6 +6,7 @@ const createTokenUser = (user) => {
     email: user.email,
     firstTimeLogin: user.firstTimeLogin,
     isApproved: user.isApproved,
+    isSeller: user.isSeller,
   };
 };
 
