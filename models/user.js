@@ -58,8 +58,8 @@ const userSchema = new mongoose.Schema({
   },
 
   image: {
-    type: String,
-    default: "/uploads/example.jpeg",
+    type: Array,
+    // default: "/uploads/example.jpeg",
   },
 
   productDeal: {
