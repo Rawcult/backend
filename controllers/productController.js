@@ -1,8 +1,10 @@
 const productModel = require("../models/product");
+const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const customError = require("../errors");
 const searchSubCategories = require("../utils/search");
 const { uploadBase64Image } = require("../utils");
+const {sendNotificaton} = require("./firebaseController")
 
 async function bulkImageUpload(options) {
   const { base64Image, res } = options;
@@ -39,6 +41,10 @@ const createProduct = async (req, res) => {
       "Stocks amount not matched with the items quantity!"
     );
   const product = await productModel.create(req.body);
+  const users = await User.find({});
+  users.map(val=> !["manufacturer","admin"].includes(val.role) && val.fbToken).filter(Boolean).map(token=>{
+    sendNotificaton(token,title,body)
+  })
   res.status(StatusCodes.CREATED).json({ product });
 };
 

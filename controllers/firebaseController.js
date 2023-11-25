@@ -105,4 +105,5 @@ const adminNotification = async (req, res) => {
 };
 
 module.exports.notification = notification;
-module.exports.adminNotification = adminNotification;
+module.exports.adminNotification = adminNotification
+module.exports.sendNotificaton = sendNotificaton
