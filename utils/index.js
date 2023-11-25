@@ -5,7 +5,7 @@ const sendVerificationEmail = require("./verifyEmail");
 const createHash = require("./createHash");
 const validateEmail = require("./validateEmail");
 const uploadBase64Image = require("./uploadBase64Image");
-// const { admin } = require("./firebaseConfig");
+const { admin } = require("./firebaseConfig");
 
 module.exports = {
   isTokenValid,
@@ -16,5 +16,5 @@ module.exports = {
   createTokenUser,
   validateEmail,
   uploadBase64Image,
-  // admin,
+  admin,
 };

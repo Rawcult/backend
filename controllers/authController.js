@@ -18,7 +18,7 @@ const origin =
     : "http://localhost:5173";
 
 const register = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password, role ,fbToken} = req.body;
 
   if (!name || !email || !password || !role)
     throw new customError.BadRequest("Please fill all the fields!");
@@ -41,6 +41,7 @@ const register = async (req, res) => {
     password,
     role,
     verificationToken,
+    fbToken
   });
 
   // await sendVerificationEmail({
@@ -73,7 +74,8 @@ const verifyEmail = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, fbToken } = req.body;
+  console.log("🚀 ~ file: authController.js:77 ~ login ~ email, password, fbToken:", email, password, fbToken)
 
   if (!email || !password)
     throw new customError.BadRequest("Please provide email and password!");
@@ -92,9 +94,10 @@ const login = async (req, res) => {
   // if (!user.isApproved)
   //   throw new customError.Unauthorized("Please wait for the approval!");
 
+  user.firebaseToken = fbToken
   const accessToken = createTokenUser(user);
   const token = attachCookiesToResponse({ accessToken });
-
+  await user.save()
   res.status(StatusCodes.OK).json({ user: accessToken, accessToken: token });
 };
 

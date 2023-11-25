@@ -48,7 +48,9 @@ const userSchema = new mongoose.Schema({
       message: "Please provide a valid email!",
     },
   },
-
+  fbToken:{
+    type:String
+  },
   gstNo: {
     type: String,
   },
