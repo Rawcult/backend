@@ -43,7 +43,7 @@ const createProduct = async (req, res) => {
   const product = await productModel.create(req.body);
   const users = await User.find({});
   users.map(val=> !["manufacturer","admin"].includes(val.role) && val.fbToken).filter(Boolean).map(token=>{
-    sendNotificaton(token,title,body)
+    sendNotificaton(token,"Yay! new Porduct added","check out the new exciting products")
   })
   res.status(StatusCodes.CREATED).json({ product });
 };
