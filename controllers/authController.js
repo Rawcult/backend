@@ -75,7 +75,6 @@ const verifyEmail = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password, fbToken } = req.body;
-  console.log("🚀 ~ file: authController.js:77 ~ login ~ email, password, fbToken:", email, password, fbToken)
 
   if (!email || !password)
     throw new customError.BadRequest("Please provide email and password!");

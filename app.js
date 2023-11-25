@@ -51,9 +51,6 @@ app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5000;
 
-setInterval(()=>{
-  console.log("check the server log")
-},1000)
 
 const start = async () => {
   try {
