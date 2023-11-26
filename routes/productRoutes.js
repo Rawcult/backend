@@ -25,7 +25,7 @@ router
   .route("/id/:id")
   .get(getSingleProduct)
   .patch(authenticateUser, updateProduct)
-  .delete(authenticateUser, deleteProduct);
+router.delete("/:id",authenticateUser, deleteProduct);
 
 router.post("/getSubCategory", getSubCategory);
 
